@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Взвешивание риса</title>
+</head>
+<body>
+    <p>Целевой вес (в граммах): <input type="number" id="targetWeight" value="1000"></p>
+    <button onclick="weighRice()">Взвесить</button>
+    <p id="result"></p>
+
+    <script>
+        function weighRice() {
+            const targetWeight = parseInt(document.getElementById('targetWeight').value);
+            let leftWeight = 0;
+            let rightWeight = 0;
+            let weightAdded = 1; // Начальный вес порции
+            let numWeighings = 0;
+
+            while (leftWeight < targetWeight) {
+                numWeighings++;
+                leftWeight += weightAdded;
+                weightAdded *= 2; // Удваиваем вес порции на каждом шаге
+            }
+
+            // Коррекция веса, если перевесили
+            while (leftWeight > targetWeight) {
+                weightAdded /= 2;
+                leftWeight -= weightAdded;
+                if (leftWeight <= targetWeight) {
+                    break; // Прекращаем, если достигли целевого веса
+                }
+            }
+
+            document.getElementById("result").textContent = `Для отмерить ${targetWeight} грамм риса потребовалось ${numWeighings} взвешиваний.`;
+        }
+    </script>
+</body>
+</html>
